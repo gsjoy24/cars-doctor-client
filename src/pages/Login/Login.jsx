@@ -2,12 +2,17 @@ import login_img from '../../../src/assets/images/login/login.svg';
 import facebook_img from '../../../src/assets/icons/facebook.png';
 import google_img from '../../../src/assets/icons/google.png';
 import github_img from '../../../src/assets/icons/github.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../Contexts/AuthProvider';
+
 const Login = () => {
 	const [error, setError] = useState('');
-	const { loginUser } = useContext(AuthContext);
+	const { loginUser, googleAuthentication, githubAuthentication } = useContext(AuthContext);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location?.state?.from?.pathname || '/';
+
 	const handleLogin = (event) => {
 		setError('');
 		event.preventDefault();
@@ -16,8 +21,33 @@ const Login = () => {
 		const password = form.password.value;
 
 		loginUser(email, password)
-			.then((result) => console.log(result.user))
+			.then((data) => {
+				console.log(data.user);
+				navigate(from, { replace: true });
+			})
 			.catch((err) => setError(err.message));
+	};
+
+	const handleGoogleAuthentication = () => {
+		googleAuthentication()
+			.then((result) => {
+				console.log(result.user);
+				navigate(from, { replace: true });
+			})
+			.catch((err) => {
+				setError(err.message);
+			});
+	};
+
+	const handleGithubAuthentication = () => {
+		githubAuthentication()
+			.then((result) => {
+				console.log(result.user);
+				navigate(from, { replace: true });
+			})
+			.catch((err) => {
+				setError(err.message);
+			});
 	};
 
 	return (
@@ -56,13 +86,23 @@ const Login = () => {
 							<div className='text-center mt-5 space-y-5'>
 								<p className='text-sm text-gray-500'>or continue with</p>
 								<div className='flex gap-4 justify-center '>
-									<img className='w-10 p-2 rounded-full bg-slate-200 cursor-pointer' src={google_img} alt='google' />
+									<img
+										onClick={handleGoogleAuthentication}
+										className='w-10 p-2 rounded-full bg-slate-200 cursor-pointer'
+										src={google_img}
+										alt='google'
+									/>
 									<img
 										className='w-10 p-2 rounded-full bg-slate-200 cursor-pointer'
 										src={facebook_img}
 										alt='facebook'
 									/>
-									<img className='w-10 p-2 rounded-full bg-slate-200 cursor-pointer' src={github_img} alt='github' />
+									<img
+										onClick={handleGithubAuthentication}
+										className='w-10 p-2 rounded-full bg-slate-200 cursor-pointer'
+										src={github_img}
+										alt='github'
+									/>
 								</div>
 								<p className='text-sm text-gray-500 flex justify-center items-center gap-2'>
 									<span>New here?</span>

@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .orange-field {
-	@apply btn hover:bg-[#FF3811] mr-4 bg-[#FF3811] hover:border-white  border-[#ff3811] text-[#fff];
+	@apply btn hover:bg-[#FF3811] bg-[#FF3811] hover:border-white border-[#ff3811] text-[#fff];
 }

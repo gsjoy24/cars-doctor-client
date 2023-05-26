@@ -46,7 +46,7 @@ const Banner = () => {
 						</p>
 						<div className='mt-8'>
 							<button className='orange-field'>Discover More</button>
-							<button className='btn btn-outline hover:bg-[#FF3811] hover:border-[#FF3811] border-[#fff] text-[#fff]'>
+							<button className='btn btn-outline hover:bg-[#FF3811] hover:border-[#FF3811] border-[#fff] text-[#fff] ml-4'>
 								Latest Project
 							</button>
 						</div>
